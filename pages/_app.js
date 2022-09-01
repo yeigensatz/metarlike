@@ -25,22 +25,21 @@ function MyApp({ Component, pageProps }) {
     "Black",
     "Luxury",
     "Dracula",
-    "Cmyk"
-  ]
+  ];
 
   useEffect(() => {
     themeChange(false)
   });
-  return (
+  return (/*
     <>
       <select className="text-primary" data-choose-theme>
         <option className="text-primary" option value="">Default Value</option>
         {themeValues.map((value) => (
           <option className="text-primary" key={value.toLowerCase()} value={value.toLowerCase()}>{value}</option>
         ))}
-      </select>
-      <Component {...pageProps} />
-    </>
+      </select>*/
+    <Component {...pageProps} />
+    //</>
   )
 }
 
