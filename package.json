@@ -9,10 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@flybywiresim/api-client": "^0.16.2",
+    "aewx-metar-parser": "^1.0.0",
     "daisyui": "^2.24.0",
     "next": "12.2.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-icons": "^4.4.0",
     "theme-change": "^2.2.0"
   },
   "devDependencies": {
