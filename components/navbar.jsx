@@ -3,6 +3,7 @@ import { ClientRequest } from "http";
 import Mainpage from "./mainpage";
 import Footer from "./footer";
 import { useState } from "react";
+import metarParser from "aewx-metar-parser";
 
 export default function NavBar() {
   const source = "vatsim";
@@ -43,6 +44,12 @@ export default function NavBar() {
     );
     let jsonResponse = await response.json();
     setData(jsonResponse.metar);
+    let parsed = metarParser(jsonResponse.metar);
+    //TODO
+    console.error(jsonResponse.metar)
+    console.warn(parsed);
+    console.log(parsed);
+
   }
 
   function handleInput(event) {

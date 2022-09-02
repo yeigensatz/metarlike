@@ -4,11 +4,12 @@ import { useState, useEffect } from "react";
 import MetarForm from "./metarform";
 import metarParser from "aewx-metar-parser";
 
+
 let parsed = "";
 
 function Mainpage(props) {
   console.log(props.data);
-
+  const [fetching, setFetching] = useState();
   //BUG Not working
   /*async function parseMetar(metar) {
     if (!metar) return;
