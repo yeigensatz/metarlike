@@ -19,7 +19,7 @@ function Mainpage(props) {
 */
   return (
     <div>
-      <p>{parsed}</p>
+      <p>{}</p>
     </div>
   );
 }
