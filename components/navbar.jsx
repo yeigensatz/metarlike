@@ -9,7 +9,8 @@ export default function NavBar() {
   const source = "vatsim";
   const [input, setInput] = useState("");
   const [data, setData] = useState();
-
+  const [fetching, setFetching] = useState(false);
+  let parsed = "";
   function showAlert(reason) {
     return (
       <div className="alert alert-error shadow-lg">
@@ -45,11 +46,11 @@ export default function NavBar() {
     let jsonResponse = await response.json();
     setData(jsonResponse.metar);
     let parsed = metarParser(jsonResponse.metar);
-    //TODO
-    console.error(jsonResponse.metar)
+    //TODO:
+
+    console.error(jsonResponse.metar);
     console.warn(parsed);
     console.log(parsed);
-
   }
 
   function handleInput(event) {
@@ -102,7 +103,7 @@ export default function NavBar() {
             </button>
           </div>
 
-          <Mainpage data={data}></Mainpage>
+          <Mainpage data={parsed}></Mainpage>
           <Footer data={data} />
         </div>
       </div>

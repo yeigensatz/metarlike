@@ -13,7 +13,6 @@ export default function Home() {
         <title>metarLike</title>
         <link rel="icon" href="icon2.ico" />
       </Head>
-      <Mainpage></Mainpage>
     </div>
   );
 }
