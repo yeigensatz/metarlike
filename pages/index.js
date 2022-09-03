@@ -2,7 +2,6 @@ import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import NavBar from "../components/navbar";
 import Footer from "../components/footer";
-import MetarForm from "../components/metarform";
 import Mainpage from "../components/mainpage";
 
 export default function Home() {
