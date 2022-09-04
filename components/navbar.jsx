@@ -137,8 +137,7 @@ export default function NavBar() {
       </div>
 
       <Mainpage metar={metarRaw} fetching={fetching}></Mainpage>
-
-      <Footer metar={metarRaw} />
+      <Footer metar={metarRaw} fetching={fetching} />
     </nav>
   );
 }
