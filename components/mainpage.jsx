@@ -6,7 +6,7 @@ import metarParser from "aewx-metar-parser";
 let parsed = "";
 
 function Mainpage(props) {
-  const { metar, fetching } = props;
+  const { metar, fetching, icao } = props;
   console.log(metar);
   return (
     <>
@@ -15,7 +15,7 @@ function Mainpage(props) {
       ) : (
         <>
           <div className="flex flex-col justify-center items-center">
-            <h1>{props.metar.icao} - METAR</h1>
+            <h1>{props.icao} - METAR</h1>
           </div>
         </>
       )}

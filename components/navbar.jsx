@@ -5,6 +5,7 @@ import Footer from "./footer";
 import { useState } from "react";
 import metarParser from "aewx-metar-parser";
 import { ToastContainer, toast } from "react-toastify";
+import { Metar } from "@flybywiresim/api-client";
 
 export default function NavBar() {
   let [invalid, setInvalid] = useState(true);
@@ -28,21 +29,33 @@ export default function NavBar() {
       setLoading(true);
       var metarRes, metarJson;
       try {
-        metarRes = await fetch(
+        /*metarRes = await fetch(
           `https://api.flybywiresim.com/metar/${icao}?source=${source}`
-        );
-        metarJson = await metarRes.json();
-      } catch (error) {
-        setLoading(false);
-        setFetching(false);
-        setInvalid(true);
-        setMetar(null);
-        return toast("ICAO not found");
+        );*/
+        Metar.get(icao, source)
+          .then((data) => {
+            console.log(data);
+            setMetarRaw(data.metar);
+            setIcao(data.icao);
+            //setMetarRaw(data);
+            metarJson = data.metar;
+          })
+          .catch((err) => {
+            console.error(err);
+            setLoading(false);
+            setFetching(false);
+            setInvalid(true);
+            setMetar(null);
+            return toast("ICAO not found");
 
-        return console.error("Airport not found!");
+            return console.error("Airport not found!");
+          });
+      } catch (err) {
+        console.error(err);
       }
+      //metarJson = await metarRes.json();
       setLoading(false);
-      setMetar(metarJson.data);
+      setMetar(metarJson);
       setFetching(false);
       console.log(metarJson);
       // await setMetar(metarParser(metarJson));
@@ -78,33 +91,53 @@ export default function NavBar() {
             value={source}
           >
             <li>
-              <a
-                onClick={() => {
-                  setSource("vatsim");
-                  console.log("Vatsim source selected");
-                }}
-              >
-                Vatsim
-              </a>
+              <button className="btn btn-ghost">
+                <a
+                  onClick={() => {
+                    setSource("vatsim");
+                    console.log("Vatsim source selected");
+                  }}
+                >
+                  Vatsim
+                </a>
+              </button>
             </li>
             <li>
-              <a
-                onClick={() =>
-                  setSource("ivao") && console.log("IVAO source selected")
-                }
-              >
-                IVAO
-              </a>
+              <button className="btn btn-ghost">
+                <a
+                  onClick={() => {
+                    setSource("ivao");
+                    console.log("IVAO source selected");
+                    toast("IVAO source selected");
+                  }}
+                >
+                  IVAO
+                </a>
+              </button>
             </li>
             <li>
-              <a
-                onClick={() =>
-                  setSource("pilotedge") &&
-                  console.log("PilotEdge source selected")
-                }
-              >
-                PilotEdge
-              </a>
+              <button disabled="disabled" className="btn">
+                <a
+                  onClick={() => {
+                    setSource("msfs");
+                    console.log("MSFS source selected");
+                  }}
+                >
+                  MSFS2020
+                </a>
+              </button>
+            </li>
+            <li>
+              <button className="btn btn-ghost">
+                <a
+                  onClick={() => {
+                    setSource("pilotedge");
+                    console.log("PilotEdge source selected");
+                  }}
+                >
+                  PilotEdge
+                </a>
+              </button>
             </li>
           </ul>
         </div>
@@ -116,7 +149,7 @@ export default function NavBar() {
               type="text"
               name="search"
               id="search"
-              isInvalid={invalid}
+              isinvalid={invalid.toString()}
               onChange={handleInput}
               onKeyPress={handleKey}
               required
@@ -127,7 +160,7 @@ export default function NavBar() {
 
             <button
               className="btn btn-outline btn-accent"
-              isLoading={loading}
+              isloading={loading.toString()}
               onClick={handleClick}
             >
               Search...
@@ -136,8 +169,8 @@ export default function NavBar() {
         </div>
       </div>
 
-      <Mainpage metar={metarRaw} fetching={fetching}></Mainpage>
-      <Footer metar={metarRaw} fetching={fetching} />
+      <Mainpage metar={metarRaw} fetching={fetching} icao={icao}></Mainpage>
+      <Footer metar={metarRaw} fetching={fetching} icao={icao} />
     </nav>
   );
 }
