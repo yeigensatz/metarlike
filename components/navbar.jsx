@@ -4,7 +4,8 @@ import Mainpage from "./mainpage";
 import Footer from "./footer";
 import { useState } from "react";
 import metarParser from "aewx-metar-parser";
-import { ToastContainer, toast } from "react-toastify";
+import toast, { Toaster } from "react-hot-toast";
+import "react-toastify/dist/ReactToastify.css";
 import { Metar } from "@flybywiresim/api-client";
 
 export default function NavBar() {
@@ -65,6 +66,9 @@ export default function NavBar() {
     }
   };
 
+  const toastSuccess = (text) => toast.success(text);
+  const toastError = (text) => toast.error(text);
+  const toastNormal = (text) => toast(text);
   function handleInput(event) {
     let val = event.target.value;
     if (val.length !== 4) {
@@ -77,6 +81,7 @@ export default function NavBar() {
 
   return (
     <nav className="navbar bg-base-100">
+      <Toaster />
       <div className="flex-1">
         <a href="#" className="btn btn-ghost normal-case text-xl">
           metarLike
@@ -85,58 +90,74 @@ export default function NavBar() {
           <label tabIndex="0" className="btn m-1">
             Set Source
           </label>
-          <ul
-            className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
-            onChange={setSource}
-            value={source}
-          >
+          <ul className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
             <li>
-              <button className="btn btn-ghost">
-                <a
-                  onClick={() => {
+              <button
+                className="btn btn-ghost"
+                onClick={() => {
+                  try {
                     setSource("vatsim");
-                    console.log("Vatsim source selected");
-                  }}
-                >
-                  Vatsim
-                </a>
+                    toastSuccess("VATSIM source selected");
+                  } catch (error) {
+                    toastError(
+                      "An error occured. Please try again or contact an administrator."
+                    );
+                  }
+                }}
+              >
+                <a>Vatsim</a>
               </button>
             </li>
             <li>
-              <button className="btn btn-ghost">
-                <a
-                  onClick={() => {
-                    setSource("ivao");
-                    console.log("IVAO source selected");
-                    toast("IVAO source selected");
-                  }}
-                >
-                  IVAO
-                </a>
+              <button
+                className="btn btn-ghost"
+                onClick={() => {
+                  try {
+                    setSource("IVAO");
+                    toastSuccess("IVAO source selected");
+                  } catch (error) {
+                    toastError(
+                      "An error occured. Please try again or contact an administrator."
+                    );
+                  }
+                }}
+              >
+                <a>IVAO</a>
               </button>
             </li>
             <li>
-              <button disabled="disabled" className="btn">
-                <a
-                  onClick={() => {
+              <button
+                disabled="disabled"
+                className="btn"
+                onClick={() => {
+                  try {
                     setSource("msfs");
-                    console.log("MSFS source selected");
-                  }}
-                >
-                  MSFS2020
-                </a>
+                    toastSuccess("MSFS2020 source selected");
+                  } catch (error) {
+                    toastError(
+                      "An error occured. Please try again or contact an administrator."
+                    );
+                  }
+                }}
+              >
+                <a>MSFS2020</a>
               </button>
             </li>
             <li>
-              <button className="btn btn-ghost">
-                <a
-                  onClick={() => {
+              <button
+                className="btn btn-ghost"
+                onClick={() => {
+                  try {
                     setSource("pilotedge");
-                    console.log("PilotEdge source selected");
-                  }}
-                >
-                  PilotEdge
-                </a>
+                    toastSuccess("PilotEdge source selected");
+                  } catch (error) {
+                    toastError(
+                      "An error occured. Please try again or contact an administrator."
+                    );
+                  }
+                }}
+              >
+                <a>PilotEdge</a>
               </button>
             </li>
           </ul>
@@ -168,9 +189,9 @@ export default function NavBar() {
           </div>
         </div>
       </div>
-
-      <Mainpage metar={metarRaw} fetching={fetching} icao={icao}></Mainpage>
-      <Footer metar={metarRaw} fetching={fetching} icao={icao} />
     </nav>
   );
 }
+/*<Mainpage metar={metarRaw} fetching={fetching} icao={icao}></Mainpage>
+      <Footer metar={metarRaw} fetching={fetching} icao={icao} />
+    */

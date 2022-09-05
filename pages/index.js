@@ -3,6 +3,8 @@ import styles from "../styles/Home.module.css";
 import NavBar from "../components/navbar";
 import Footer from "../components/footer";
 import Mainpage from "../components/mainpage";
+import { Toaster } from "react-hot-toast";
+import Test from "../components/test";
 
 export default function Home() {
   return (
@@ -12,6 +14,8 @@ export default function Home() {
         <title>metarLike</title>
         <link rel="icon" href="icon2.ico" />
       </Head>
-    </div>
+      <Mainpage></Mainpage>
+      <Test></Test>
+    </div >
   );
 }
