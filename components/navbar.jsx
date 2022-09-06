@@ -10,32 +10,47 @@ import { Metar } from "@flybywiresim/api-client";
 
 export default function NavBar() {
   let [invalid, setInvalid] = useState(true);
-  let [source, setSource] = useState("vatsim");
+  let [source, setSource] = useState();
   let [icao, setIcao] = useState("");
+  let [message, setMessage] = useState("");
   let [loading, setLoading] = useState(false);
   let [metar, setMetar] = useState(null);
   let [metarRaw, setMetarRaw] = useState(null);
   let [fetching, setFetching] = useState(false);
 
+  function resetAll() {
+    setMetarRaw(null);
+    setSource();
+    setIcao("");
+    setFetching(false);
+    setMetar(null);
+    setMessage("");
+  }
+  function handleChange(event) {
+    //BUG
+    setMessage(event.target.value);
+  }
   function handleKey(e) {
     if (e.key === "Enter") {
       handleClick();
     }
   }
 
-  let handleClick = async () => {
+  let handleClick = () => {
     if (invalid === false) {
       setFetching(true);
       setMetar(null);
+      if (source == "") {
+        toast.error("Please select a source.");
+        setSource("ivao");
+      }
       setLoading(true);
       var metarRes, metarJson;
       try {
-        /*metarRes = await fetch(
-          `https://api.flybywiresim.com/metar/${icao}?source=${source}`
-        );*/
         Metar.get(icao, source)
           .then((data) => {
             console.log(data);
+            console.log(source);
             setMetarRaw(data.metar);
             setIcao(data.icao);
             //setMetarRaw(data);
@@ -83,7 +98,11 @@ export default function NavBar() {
     <nav className="navbar bg-base-100">
       <Toaster />
       <div className="flex-1">
-        <a href="#" className="btn btn-ghost normal-case text-xl">
+        <a
+          href="#"
+          className="btn btn-ghost normal-case text-xl"
+          onClick={resetAll}
+        >
           metarLike
         </a>
         <div className="dropdown justify-center">
@@ -113,7 +132,7 @@ export default function NavBar() {
                 className="btn btn-ghost"
                 onClick={() => {
                   try {
-                    setSource("IVAO");
+                    setSource("ivao");
                     toastSuccess("IVAO source selected");
                   } catch (error) {
                     toastError(
@@ -127,11 +146,10 @@ export default function NavBar() {
             </li>
             <li>
               <button
-                disabled="disabled"
                 className="btn"
                 onClick={() => {
                   try {
-                    setSource("msfs");
+                    setSource("ms");
                     toastSuccess("MSFS2020 source selected");
                   } catch (error) {
                     toastError(
@@ -145,6 +163,7 @@ export default function NavBar() {
             </li>
             <li>
               <button
+                disabled="disabled"
                 className="btn btn-ghost"
                 onClick={() => {
                   try {
@@ -170,8 +189,9 @@ export default function NavBar() {
               type="text"
               name="search"
               id="search"
+              value={message}
               isinvalid={invalid.toString()}
-              onChange={handleInput}
+              onChange={(handleInput, handleChange)}
               onKeyPress={handleKey}
               required
               maxLength="4"
