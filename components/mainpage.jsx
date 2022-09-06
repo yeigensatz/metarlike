@@ -7,9 +7,10 @@ import airports from "airport-codes";
 let parsed = "";
 
 function Mainpage(props) {
-  /*const*/ let { metar, fetching, icao } = props;
-  icao = "lszh";
-  airportName = airports.findWhere({ icao: icao }).get("name");
+  const airports = require("airport-codes");
+  const { metar, fetching, icao } = props;
+  let airporticao = "KJFK";
+  let airportName = airports.findWhere({ icao: airporticao }).get("name");
 
   console.log(metar);
   return (

@@ -189,6 +189,7 @@ export default function NavBar() {
           </div>
         </div>
       </div>
+      <Footer metar={metarRaw} fetching={fetching} icao={icao} />
     </nav>
   );
 }

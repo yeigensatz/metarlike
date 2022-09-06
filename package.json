@@ -13,6 +13,7 @@
     "aewx-metar-parser": "^1.0.0",
     "airport-codes": "^1.0.2",
     "daisyui": "^2.24.0",
+    "jquery": "^3.6.1",
     "next": "12.2.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
