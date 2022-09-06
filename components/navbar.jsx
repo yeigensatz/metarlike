@@ -18,18 +18,6 @@ export default function NavBar() {
   let [metarRaw, setMetarRaw] = useState(null);
   let [fetching, setFetching] = useState(false);
 
-  function resetAll() {
-    setMetarRaw(null);
-    setSource();
-    setIcao("");
-    setFetching(false);
-    setMetar(null);
-    setMessage("");
-  }
-  function handleChange(event) {
-    //BUG
-    setMessage(event.target.value);
-  }
   function handleKey(e) {
     if (e.key === "Enter") {
       handleClick();
@@ -37,15 +25,17 @@ export default function NavBar() {
   }
 
   let handleClick = () => {
-    if (invalid === false) {
+    if (/*invalid === false*/ true) {
       setFetching(true);
       setMetar(null);
       if (source == "") {
         toast.error("Please select a source.");
-        setSource("ivao");
+        setSource("ms");
       }
       setLoading(true);
       var metarRes, metarJson;
+      setSource("Vatsim");
+      setIcao("LSZH");
       try {
         Metar.get(icao, source)
           .then((data) => {
@@ -95,122 +85,121 @@ export default function NavBar() {
   }
 
   return (
-    <nav className="navbar bg-base-100">
-      <Toaster />
-      <div className="flex-1">
-        <a
-          href="#"
-          className="btn btn-ghost normal-case text-xl"
-          onClick={resetAll}
-        >
-          metarLike
-        </a>
-        <div className="dropdown justify-center">
-          <label tabIndex="0" className="btn m-1">
-            Set Source
-          </label>
-          <ul className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-            <li>
-              <button
-                className="btn btn-ghost"
-                onClick={() => {
-                  try {
-                    setSource("vatsim");
-                    toastSuccess("VATSIM source selected");
-                  } catch (error) {
-                    toastError(
-                      "An error occured. Please try again or contact an administrator."
-                    );
-                  }
-                }}
-              >
-                <a>Vatsim</a>
-              </button>
-            </li>
-            <li>
-              <button
-                className="btn btn-ghost"
-                onClick={() => {
-                  try {
-                    setSource("ivao");
-                    toastSuccess("IVAO source selected");
-                  } catch (error) {
-                    toastError(
-                      "An error occured. Please try again or contact an administrator."
-                    );
-                  }
-                }}
-              >
-                <a>IVAO</a>
-              </button>
-            </li>
-            <li>
-              <button
-                className="btn"
-                onClick={() => {
-                  try {
-                    setSource("ms");
-                    toastSuccess("MSFS2020 source selected");
-                  } catch (error) {
-                    toastError(
-                      "An error occured. Please try again or contact an administrator."
-                    );
-                  }
-                }}
-              >
-                <a>MSFS2020</a>
-              </button>
-            </li>
-            <li>
-              <button
-                disabled="disabled"
-                className="btn btn-ghost"
-                onClick={() => {
-                  try {
-                    setSource("pilotedge");
-                    toastSuccess("PilotEdge source selected");
-                  } catch (error) {
-                    toastError(
-                      "An error occured. Please try again or contact an administrator."
-                    );
-                  }
-                }}
-              >
-                <a>PilotEdge</a>
-              </button>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div>
-        <div className="space-x-5">
-          <div className="flex-none">
-            <input
-              type="text"
-              name="search"
-              id="search"
-              value={message}
-              isinvalid={invalid.toString()}
-              onChange={(handleInput, handleChange)}
-              onKeyPress={handleKey}
-              required
-              maxLength="4"
-              placeholder="Search Airport ICAO"
-              className="input input-bordered"
-            />
-
-            <button
-              className="btn btn-outline btn-accent"
-              isloading={loading.toString()}
-              onClick={handleClick}
-            >
-              Search...
-            </button>
+    <div>
+      <nav className="navbar bg-base-100">
+        <Toaster />
+        <div className="flex-1">
+          <a href="#" className="btn btn-ghost normal-case text-xl">
+            metarLike
+          </a>
+          <div className="dropdown justify-center">
+            <label tabIndex="0" className="btn m-1">
+              Set Source
+            </label>
+            <ul className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+              <li>
+                <button
+                  className="btn btn-ghost"
+                  onClick={() => {
+                    try {
+                      setSource("vatsim");
+                      toastSuccess("VATSIM source selected");
+                    } catch (error) {
+                      toastError(
+                        "An error occured. Please try again or contact an administrator."
+                      );
+                    }
+                  }}
+                >
+                  <a>Vatsim</a>
+                </button>
+              </li>
+              <li>
+                <button
+                  className="btn btn-ghost"
+                  onClick={() => {
+                    try {
+                      setSource("ivao");
+                      toastSuccess("IVAO source selected");
+                    } catch (error) {
+                      toastError(
+                        "An error occured. Please try again or contact an administrator."
+                      );
+                    }
+                  }}
+                >
+                  <a>IVAO</a>
+                </button>
+              </li>
+              <li>
+                <button
+                  className="btn btn-ghost"
+                  onClick={() => {
+                    try {
+                      setSource("ms");
+                      toastSuccess("MSFS2020 source selected");
+                    } catch (error) {
+                      toastError(
+                        "An error occured. Please try again or contact an administrator."
+                      );
+                    }
+                  }}
+                >
+                  <a>MSFS2020</a>
+                </button>
+              </li>
+              <li>
+                <button
+                  disabled="disabled"
+                  className="btn btn-ghost"
+                  onClick={() => {
+                    try {
+                      setSource("pilotedge");
+                      toastSuccess("PilotEdge source selected");
+                    } catch (error) {
+                      toastError(
+                        "An error occured. Please try again or contact an administrator."
+                      );
+                    }
+                  }}
+                >
+                  <a>PilotEdge</a>
+                </button>
+              </li>
+            </ul>
           </div>
         </div>
-      </div>
+        <div>
+          <div className="space-x-5">
+            <div className="flex-none">
+              <input
+                type="text"
+                name="search"
+                id="search"
+                value={message}
+                isinvalid={invalid.toString()}
+                onChange={handleInput}
+                onKeyPress={handleKey}
+                required
+                maxLength="4"
+                placeholder="Search Airport ICAO"
+                className="input input-bordered"
+              />
+
+              <button
+                className="btn btn-outline btn-accent"
+                isloading={loading.toString()}
+                onClick={handleClick}
+              >
+                Search...
+              </button>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <Mainpage metar={metarRaw} fetching={fetching} icao={icao} />
       <Footer metar={metarRaw} fetching={fetching} icao={icao} />
-    </nav>
+    </div>
   );
 }
 /*<Mainpage metar={metarRaw} fetching={fetching} icao={icao}></Mainpage>

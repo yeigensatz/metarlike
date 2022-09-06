@@ -4,18 +4,25 @@ import { useState, useEffect } from "react";
 import metarParser from "aewx-metar-parser";
 import airports from "airport-codes";
 
-let parsed = "";
-
 function Mainpage(props) {
+  let [airporticao, setIcao] = useState("");
+  let parsed = "";
+  let airportName;
+
   const airports = require("airport-codes");
   const { metar, fetching, icao } = props;
-  let airporticao = "KJFK";
-  let airportName = airports.findWhere({ icao: airporticao }).get("name");
+  //useeffect update when props.icao has changed
+
+  if (airporticao == "") {
+    setIcao("LSZH");
+    setIcao(props.icao);
+    airportName = airports.findWhere({ icao: airporticao }).get("name");
+  }
 
   console.log(metar);
   return (
     <>
-      {metar === null ? (
+      {icao === null ? (
         <>{fetching ? <></> : <></>}</>
       ) : (
         <>
